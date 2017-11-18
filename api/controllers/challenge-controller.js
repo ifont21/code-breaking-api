@@ -1,6 +1,14 @@
 const { mongoose } = require('./../../config/mongoose');
 const { Player, Challenge } = require('./../models/index');
+const { ObjectID } = require('mongodb');
 
+exports.getChallenges = (req, res) => {
+	Challenge.find().then((challenges) => {
+		res.send({ challenges });
+	}).catch((e) => {
+		res.status(500).send(e);
+	});
+}
 
 exports.createChallenge = (req, res) => {
 	const challenge = new Challenge();
@@ -25,3 +33,22 @@ exports.createChallenge = (req, res) => {
 		res.status(500).send(error);
 	});
 };
+
+
+exports.finishChallenge = (req, res) => {
+	const id = req.params.challengeId;
+	const payload = req.body;
+
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send('id invalid');
+	}
+
+	Challenge.findByIdAndUpdate(id, { $set: payload }, { new: true }).then((challenge) => {
+		if (!challenge) {
+			return res.status(404).send('challenge not found');
+		}
+		res.send({ challenge });
+	}).catch((e) => {
+		res.status(400).send(e);
+	});
+}

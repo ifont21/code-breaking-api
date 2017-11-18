@@ -6,17 +6,17 @@ const Player = mongoose.model('Player', {
 		required: true,
 		minlength: 1
 	},
-	wins:{
+	number_games: {
 		type: Number,
 		default: 0
 	},
-	defeates:{
+	wins: {
 		type: Number,
 		default: 0
 	},
-	online:{
-		type: Boolean,
-		default: false
+	defeats: {
+		type: Number,
+		default: 0
 	}
 });
 

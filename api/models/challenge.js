@@ -13,7 +13,7 @@ const Challenge = mongoose.model('Challenge', {
 			type: Number,
 			default: 0
 		},
-		won: {
+		winner: {
 			type: Boolean,
 			default: false
 		}
@@ -29,7 +29,7 @@ const Challenge = mongoose.model('Challenge', {
 			type: Number,
 			default: 0
 		},
-		won: {
+		winner: {
 			type: Boolean,
 			default: false
 		}
