@@ -4,7 +4,8 @@ const Player = mongoose.model('Player', {
 	username: {
 		type: String,
 		required: true,
-		minlength: 1
+		minlength: 1,
+		unique: true
 	},
 	number_games: {
 		type: Number,

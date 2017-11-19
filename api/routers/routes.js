@@ -12,10 +12,6 @@ router.route('/players/:username')
 	.patch(playerController.updatePlayer);
 
 
-router.route('/signin')
-	.post(playerController.signin);
-
-
 router.route('/challenges')
 	.get(challengeController.getChallenges)
 	.post(challengeController.createChallenge);
