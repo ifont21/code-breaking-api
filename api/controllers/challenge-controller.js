@@ -10,6 +10,20 @@ exports.getChallenges = (req, res) => {
 	});
 }
 
+exports.getChallenge = (req, res) => {
+	const id = req.params.challengeId;
+
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send('id invalid');
+	}
+
+	challenge.findById(id).then((challenge) => {
+		res.send(challenge);
+	}).catch((e) => {
+		res.status(500).send(e);
+	});
+}
+
 exports.createChallenge = (req, res) => {
 	const challenge = new Challenge();
 	Player.find({
