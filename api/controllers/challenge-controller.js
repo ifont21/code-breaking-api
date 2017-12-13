@@ -17,7 +17,7 @@ exports.getChallenge = (req, res) => {
 		return res.status(404).send('id invalid');
 	}
 
-	challenge.findById(id).then((challenge) => {
+	Challenge.findById(id).then((challenge) => {
 		res.send(challenge);
 	}).catch((e) => {
 		res.status(500).send(e);
