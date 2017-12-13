@@ -17,11 +17,16 @@ exports.getChallenge = (req, res) => {
 		return res.status(404).send('id invalid');
 	}
 
-	Challenge.findById(id).then((challenge) => {
-		res.send(challenge);
-	}).catch((e) => {
-		res.status(500).send(e);
-	});
+	Challenge.findById(id)
+		.populate('challengerOne.player')
+		.populate('challengerTwo.player')
+		.exec()
+		.then((challenge) => {
+			res.send(challenge);
+		})
+		.catch((e) => {
+			res.status(500).send(e);
+		});
 }
 
 exports.createChallenge = (req, res) => {
