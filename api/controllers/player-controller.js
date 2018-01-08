@@ -1,5 +1,6 @@
 const { mongoose } = require('./../../config/mongoose');
 const { Player } = require('./../models/index');
+const { ObjectID } = require('mongodb');
 
 exports.getPlayers = (req, res) => {
 	Player.find().then((players) => {
@@ -33,6 +34,10 @@ exports.updatePlayer = (req, res) => {
 	const playerId = req.params.id;
 	const winner = req.body.winner;
 
+	if (!ObjectID.isValid(id)) {
+		return res.status(404).send('id invalid');
+	}
+
 	if (typeof winner === 'boolean' && winner) {
 		Player.findByIdAndUpdate(player._id, { $inc: { wins: 1, number_games: 1 } }, { new: true }).then((player) => {
 			if (!player) {
@@ -52,5 +57,14 @@ exports.updatePlayer = (req, res) => {
 			res.status(500).send(e);
 		});
 	}
+}
+
+exports.deleteAll = (req, res) => {
+	Player.remove()
+		.then(() => {
+			res.status(200).send({ message: 'All was Deleted successfully!' });
+		}).catch((e) => {
+			res.status(500).send(e);
+		});
 }
 

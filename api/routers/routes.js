@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.route('/players')
 	.get(playerController.getPlayers)
-	.post(playerController.createAndRegister);
+	.post(playerController.createAndRegister)
+	.delete(playerController.deleteAll);
 
 router.route('/players/:id')
 	.patch(playerController.updatePlayer);
