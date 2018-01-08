@@ -3,11 +3,15 @@ const { Player, Challenge } = require('./../models/index');
 const { ObjectID } = require('mongodb');
 
 exports.getChallenges = (req, res) => {
-	Challenge.find().then((challenges) => {
-		res.send({ challenges });
-	}).catch((e) => {
-		res.status(500).send(e);
-	});
+	Challenge.find()
+		.populate('challengerOne.player')
+		.populate('challengerTwo.player')
+		.exec()
+		.then((challenges) => {
+			res.send({ challenges });
+		}).catch((e) => {
+			res.status(500).send(e);
+		});
 }
 
 exports.getChallenge = (req, res) => {
@@ -56,18 +60,36 @@ exports.createChallenge = (req, res) => {
 
 exports.finishChallenge = (req, res) => {
 	const id = req.params.challengeId;
-	const payload = req.body;
 
 	if (!ObjectID.isValid(id)) {
 		return res.status(404).send('id invalid');
 	}
 
-	Challenge.findByIdAndUpdate(id, { $set: payload }, { new: true }).then((challenge) => {
-		if (!challenge) {
-			return res.status(404).send('challenge not found');
-		}
-		res.send({ challenge });
-	}).catch((e) => {
-		res.status(400).send(e);
-	});
+	Challenge.findById(id)
+		.populate('challengerOne.player')
+		.populate('challengerTwo.player')
+		.exec()
+		.then((challenge) => {
+			if (!challenge) {
+				return res.status(404).send('challenge not found');
+			}
+			challenge.challengerOne.number = req.body.challengerOne.number;
+			challenge.challengerOne.attempts = req.body.challengerOne.attempts;
+			challenge.challengerOne.winner = req.body.challengerOne.winner;
+			challenge.challengerTwo.number = req.body.challengerTwo.number;
+			challenge.challengerTwo.attempts = req.body.challengerTwo.attempts;
+			challenge.challengerTwo.winner = req.body.challengerTwo.winner;
+
+			Challenge.findByIdAndUpdate(id, { $set: challenge }, { new: true })
+				.then((challenge) => {
+					if (!challenge) {
+						return res.status(404).send('challenge not found');
+					}
+					res.send({ challenge });
+				}).catch((e) => {
+					res.status(400).send(e);
+				});
+		}).catch((e) => {
+			res.status(400).send(e);
+		});
 }

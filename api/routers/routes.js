@@ -18,7 +18,7 @@ router.route('/challenges')
 
 router.route('/challenges/:challengeId')
 	.get(challengeController.getChallenge)
-	.patch(challengeController.finishChallenge);
+	.put(challengeController.finishChallenge);
 
 module.exports = router;
 
