@@ -57,6 +57,15 @@ exports.createChallenge = (req, res) => {
 	});
 };
 
+exports.deleteAll = (req, res) => {
+	Challenge.remove()
+		.then(() => {
+			res.status(200).send({ message: 'All was Deleted successfully!' });
+		}).catch((e) => {
+			res.status(400).send(e);
+		})
+}
+
 
 exports.finishChallenge = (req, res) => {
 	const id = req.params.challengeId;

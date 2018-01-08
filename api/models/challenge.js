@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const Challenge = mongoose.model('Challenge', {
+const challengeSchema = new Schema({
 	challengerOne: {
 		player: { type: Schema.Types.ObjectId, ref: 'Player' },
 		number: {
@@ -33,7 +33,11 @@ const Challenge = mongoose.model('Challenge', {
 			type: Boolean,
 			default: false
 		}
-	},
+	}
 });
+
+const Challenge = mongoose.model('Challenge', challengeSchema);
+
+
 
 module.exports = { Challenge }; 

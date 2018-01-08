@@ -14,7 +14,8 @@ router.route('/players/:username')
 
 router.route('/challenges')
 	.get(challengeController.getChallenges)
-	.post(challengeController.createChallenge);
+	.post(challengeController.createChallenge)
+	.delete(challengeController.deleteAll);
 
 router.route('/challenges/:challengeId')
 	.get(challengeController.getChallenge)
