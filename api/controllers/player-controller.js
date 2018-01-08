@@ -34,12 +34,12 @@ exports.updatePlayer = (req, res) => {
 	const playerId = req.params.id;
 	const winner = req.body.winner;
 
-	if (!ObjectID.isValid(id)) {
+	if (!ObjectID.isValid(playerId)) {
 		return res.status(404).send('id invalid');
 	}
 
 	if (typeof winner === 'boolean' && winner) {
-		Player.findByIdAndUpdate(player._id, { $inc: { wins: 1, number_games: 1 } }, { new: true }).then((player) => {
+		Player.findByIdAndUpdate(playerId, { $inc: { wins: 1, number_games: 1 } }, { new: true }).then((player) => {
 			if (!player) {
 				return res.status(404).send('not found player');
 			}
@@ -48,7 +48,7 @@ exports.updatePlayer = (req, res) => {
 			res.status(500).send(e);
 		});
 	} else {
-		Player.findByIdAndUpdate(player._id, { $inc: { defeats: 1, number_games: 1 } }, { new: true }).then((player) => {
+		Player.findByIdAndUpdate(playerId, { $inc: { defeats: 1, number_games: 1 } }, { new: true }).then((player) => {
 			if (!player) {
 				return res.status(404).send('not found player');
 			}
