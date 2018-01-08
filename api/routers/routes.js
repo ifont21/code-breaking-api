@@ -8,7 +8,7 @@ router.route('/players')
 	.get(playerController.getPlayers)
 	.post(playerController.createAndRegister);
 
-router.route('/players/:username')
+router.route('/players/:id')
 	.patch(playerController.updatePlayer);
 
 
