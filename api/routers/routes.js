@@ -13,6 +13,10 @@ router.route('/players/:id')
 	.patch(playerController.updatePlayer);
 
 
+router.route('/ranking')
+	.get(playerController.getPlayerRanking);
+
+
 router.route('/challenges')
 	.get(challengeController.getChallenges)
 	.post(challengeController.createChallenge)

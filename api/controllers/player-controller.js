@@ -2,9 +2,20 @@ const { mongoose } = require('./../../config/mongoose');
 const { Player } = require('./../models/index');
 const { ObjectID } = require('mongodb');
 
+const _ = require('lodash');
+
 exports.getPlayers = (req, res) => {
 	Player.find().then((players) => {
 		res.send(players);
+	}, (err) => {
+		res.status(500).send(err);
+	});
+}
+
+exports.getPlayerRanking = (req, res) => {
+	Player.find().then((players) => {
+		const sortedArray = _.orderBy(players, ['wins'], ['desc']);
+		res.send(sortedArray);
 	}, (err) => {
 		res.status(500).send(err);
 	});
